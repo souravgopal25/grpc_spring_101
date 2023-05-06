@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/grpc_spring_101.iml" filepath="$PROJECT_DIR$/.idea/grpc_spring_101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/proto.iml" filepath="$PROJECT_DIR$/proto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/grpc_poc/proto/proto.iml" filepath="$PROJECT_DIR$/grpc_poc/proto/proto.iml" />
     </modules>
   </component>
 </project>
