@@ -2,18 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="grpc_client" />
+        <module name="grpc-service" />
         <module name="proto" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="grpc_service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="grpc-service" options="-parameters" />
+      <module name="grpc_client" options="-parameters" />
       <module name="grpc_poc" options="" />
-      <module name="proto" options="-parameters" />
+      <module name="grpc_service" options="-parameters" />
+      <module name="proto" options="" />
     </option>
   </component>
 </project>

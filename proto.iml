@@ -3,6 +3,8 @@
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$/grpc_poc/proto" dumb="true">
       <sourceFolder url="file://$MODULE_DIR$/grpc_poc/proto/src/main/proto" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grpc_poc/proto/target/generated-sources/protobuf/grpc-java" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/grpc_poc/proto/target/generated-sources/protobuf/java" isTestSource="false" generated="true" />
     </content>
   </component>
 </module>

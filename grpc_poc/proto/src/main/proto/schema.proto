@@ -24,5 +24,8 @@ message AuthorId{
 }
 
 service BookAuthorService{
+  //unary -sync
+  // client will send AuthorId and we will return Author Detail
   rpc getAuthorDetails(AuthorId) returns(Author){}
+
 }
