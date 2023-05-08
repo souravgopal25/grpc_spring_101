@@ -31,4 +31,12 @@ service BookAuthorService{
   //Client Will send one request as AuthorId and Service will stream multiple Books
   rpc getBookByAuthor(AuthorId) returns(stream Book){}
 
+  //Client Streaming Async
+  //Client will send stream of message and server will return one message
+  rpc getExpensiveBook(stream Book) returns(Book){}
+
+  //Bi-Directional Streaming
+  //Client and Server both will send stream
+  rpc getBooksByAuthorGender(stream Book) returns(stream Book){}
+
 }
