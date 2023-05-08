@@ -20,12 +20,15 @@ message Author{
 }
 
 message AuthorId{
-  int32 author_id=1;
+  int32 author_id = 1;
 }
 
 service BookAuthorService{
   //unary -sync
   // client will send AuthorId and we will return Author Detail
   rpc getAuthorDetails(AuthorId) returns(Author){}
+  //Server Streaming Async
+  //Client Will send one request as AuthorId and Service will stream multiple Books
+  rpc getBookByAuthor(AuthorId) returns(stream Book){}
 
 }

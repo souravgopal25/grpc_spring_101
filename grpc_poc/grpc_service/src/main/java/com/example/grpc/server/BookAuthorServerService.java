@@ -1,9 +1,6 @@
 package com.example.grpc.server;
 
-import com.example.Author;
-import com.example.AuthorId;
-import com.example.BookAuthorServiceGrpc;
-import com.example.TempDB;
+import com.example.*;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
@@ -16,6 +13,15 @@ public class BookAuthorServerService extends BookAuthorServiceGrpc.BookAuthorSer
                 .filter(author -> author.getAuthorId() == request.getAuthorId())
                 .findFirst()
                 .ifPresent(responseObserver::onNext);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getBookByAuthor(AuthorId request, StreamObserver<Book> responseObserver) {
+        TempDB.getBooksFromTempDb().
+                stream()
+                .filter(book -> book.getAuthorId() == request.getAuthorId())
+                .forEach(responseObserver::onNext);
         responseObserver.onCompleted();
     }
 }
