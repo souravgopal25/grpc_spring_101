@@ -1,10 +1,13 @@
 package com.example.service;
 
 import com.example.*;
+import com.example.config.BookAuthorServiceClient;
 import com.google.protobuf.Descriptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,23 +21,18 @@ public class BookAuthorClientService {
 
     //    @GrpcClient("grpc-service")
 //    BookAuthorServiceGrpc.BookAuthorServiceStub asynchronousClient;
-    private ManagedChannel getManagedChannel() {
-        return ManagedChannelBuilder.forAddress("localhost", 9000)
-                .usePlaintext()
-                .build();
 
-    }
+    @Autowired
+    BookAuthorServiceGrpc.BookAuthorServiceStub asyncClient;
 
-    private BookAuthorServiceGrpc.BookAuthorServiceStub getAsyncClient() {
-        return BookAuthorServiceGrpc.newStub(getManagedChannel());
+    @Autowired
+    BookAuthorServiceGrpc.BookAuthorServiceBlockingStub syncClient;
 
-    }
 
     public Map<Descriptors.FieldDescriptor, Object> getAuthor(int authorId) {
 
-        BookAuthorServiceGrpc.BookAuthorServiceBlockingStub synchronousClient = BookAuthorServiceGrpc.newBlockingStub(getManagedChannel());
         AuthorId request = AuthorId.newBuilder().setAuthorId(authorId).build();
-        Author response = synchronousClient.getAuthorDetails(request);
+        Author response = syncClient.getAuthorDetails(request);
         return response.getAllFields();
     }
 
@@ -42,7 +40,6 @@ public class BookAuthorClientService {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         AuthorId request = AuthorId.newBuilder().setAuthorId(authorId).build();
         final List<Map<Descriptors.FieldDescriptor, Object>> response = new ArrayList<>();
-        BookAuthorServiceGrpc.BookAuthorServiceStub asyncClient = getAsyncClient();
         asyncClient.getBookByAuthor(request, new StreamObserver<Book>() {
             @Override
             public void onNext(Book book) {
@@ -67,7 +64,6 @@ public class BookAuthorClientService {
     public Map<String, Map<Descriptors.FieldDescriptor, Object>> getExpensiveBook() throws InterruptedException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final Map<String, Map<Descriptors.FieldDescriptor, Object>> response = new HashMap<>();
-        BookAuthorServiceGrpc.BookAuthorServiceStub asyncClient = getAsyncClient();
         StreamObserver<Book> responseObserver = asyncClient.getExpensiveBook(new StreamObserver<Book>() {
             @Override
             public void onNext(Book book) {
@@ -93,7 +89,6 @@ public class BookAuthorClientService {
     public List<Map<Descriptors.FieldDescriptor, Object>> getBooksByAuthorAndGender(String gender) throws InterruptedException {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final List<Map<Descriptors.FieldDescriptor, Object>> response = new ArrayList<>();
-        BookAuthorServiceGrpc.BookAuthorServiceStub asyncClient = getAsyncClient();
         StreamObserver<Book> responseObserver = asyncClient.getBooksByAuthorGender(new StreamObserver<Book>() {
             @Override
             public void onNext(Book book) {
